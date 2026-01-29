@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My First Prototype</title>
@@ -12,14 +13,14 @@
         <p>This is a simple prototype to test our deployment pipeline.</p>
         <button onclick="showMessage()">Click Me!</button>
         <div id="output"></div>
+        
+        <div class="portraits-section">
+            <h2>Náhodné portréty</h2>
+            <div id="portraits-container" class="portraits-grid"></div>
+            <button onclick="loadPortraits()" class="refresh-btn">Načíst nové portréty</button>
+        </div>
     </div>
 
-    <script>
-        function showMessage() {
-            const output = document.getElementById('output');
-            const now = new Date().toLocaleString();
-            output.innerHTML = `Button clicked at: ${now}`;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
