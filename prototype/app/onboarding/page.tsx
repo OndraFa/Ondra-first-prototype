@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+export const dynamic = 'force-dynamic'
+
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Container, Title, Button, Stepper, Paper, Group, Text } from '@mantine/core'
 import { isLoggedIn } from '@/lib/utils/storage'
@@ -15,7 +17,7 @@ import type { PersonalInfo, TripInfo, TripType, Coverage, HealthInfo, Payment, C
 
 const TOTAL_STEPS = 7
 
-export default function OnboardingPage() {
+function OnboardingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [active, setActive] = useState(0)
@@ -48,22 +50,27 @@ export default function OnboardingPage() {
       // Step 1: Contact info goes into personalInfo
       setFormData(prev => ({
         ...prev,
-        personalInfo: { ...prev.personalInfo, ...data }
+        personalInfo: { ...(prev.personalInfo || {}), ...data }
       }))
     } else if (step === 2) {
       // Step 2: Personal info
       setFormData(prev => ({
         ...prev,
-        personalInfo: { ...prev.personalInfo, ...data }
+        personalInfo: { ...(prev.personalInfo || {}), ...data }
       }))
     } else {
-      const stepKeys = ['', 'personalInfo', 'personalInfo', 'tripInfo', 'tripType', 'coverage', 'healthInfo', 'payment']
+      const stepKeys: string[] = ['', 'personalInfo', 'personalInfo', 'tripInfo', 'tripType', 'coverage', 'healthInfo', 'payment']
       const key = stepKeys[step]
-      if (key) {
-        setFormData(prev => ({
-          ...prev,
-          [key]: { ...prev[key as keyof typeof prev], ...data }
-        }))
+      if (key && key !== '') {
+        const validKey = key as keyof typeof formData
+        setFormData(prev => {
+          const currentValue = prev[validKey]
+          const currentObj = currentValue && typeof currentValue === 'object' ? currentValue : {}
+          return {
+            ...prev,
+            [validKey]: { ...currentObj, ...data }
+          }
+        })
       }
     }
   }
@@ -89,17 +96,22 @@ export default function OnboardingPage() {
 
     const { addPolicy } = await import('@/lib/utils/storage')
     
+    if (!formData.tripInfo || !formData.tripType || !formData.coverage || !formData.healthInfo) {
+      alert('Please complete all form steps')
+      return
+    }
+
     const policyData = {
       personalInfo: {
-        email: formData.personalInfo.email,
-        phone: formData.personalInfo.phone,
-        firstName: formData.personalInfo.firstName || '',
-        lastName: formData.personalInfo.lastName || '',
-        personalId: formData.personalInfo.personalId,
-        birthDate: formData.personalInfo.birthDate,
-        idType: formData.personalInfo.idType || 'czechId',
-        nationality: formData.personalInfo.nationality,
-        address: formData.personalInfo.address,
+        email: formData.personalInfo!.email!,
+        phone: formData.personalInfo!.phone!,
+        firstName: formData.personalInfo?.firstName || '',
+        lastName: formData.personalInfo?.lastName || '',
+        personalId: formData.personalInfo?.personalId,
+        birthDate: formData.personalInfo?.birthDate,
+        idType: (formData.personalInfo?.idType || 'czechId') as 'czechId' | 'birthDate',
+        nationality: formData.personalInfo?.nationality,
+        address: formData.personalInfo?.address,
       } as PersonalInfo,
       tripInfo: formData.tripInfo as TripInfo,
       tripType: formData.tripType as TripType,
@@ -121,7 +133,7 @@ export default function OnboardingPage() {
     <Container size="md" py="xl">
       <Title order={1} mb="xl">New Travel Insurance Policy</Title>
 
-      <Stepper active={active} onStepClick={setActive} breakpoint="sm" mb="xl">
+      <Stepper active={active} onStepClick={setActive} mb="xl">
         <Stepper.Step label="Contact" description="Email & Phone">
           <Step1Contact
             data={formData.personalInfo}
@@ -201,5 +213,17 @@ export default function OnboardingPage() {
         </Stepper.Step>
       </Stepper>
     </Container>
+  )
+}
+
+export default function OnboardingPage() {
+  return (
+    <Suspense fallback={
+      <Container size="md" py="xl">
+        <Text>Loading...</Text>
+      </Container>
+    }>
+      <OnboardingContent />
+    </Suspense>
   )
 }

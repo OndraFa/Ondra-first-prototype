@@ -1,7 +1,7 @@
 // Storage utilities for Travel Insurance Broker
 // Client-side localStorage management
 
-import type { User, Policy, Transaction } from '@/lib/types'
+import type { User, Policy, Transaction, PersonalInfo, TripInfo, TripType, Coverage, HealthInfo, Payment, Consents } from '@/lib/types'
 
 const STORAGE_KEYS = {
   USER: 'user',

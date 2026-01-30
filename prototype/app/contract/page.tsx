@@ -1,37 +1,60 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+export const dynamic = 'force-dynamic'
+
+import { useEffect, useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Container, Paper, Title, Text, Button, Group, Stack } from '@mantine/core'
 import { getPolicy } from '@/lib/utils/storage'
 import type { Policy } from '@/lib/types'
 
-export default function ContractPage() {
+function ContractContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [policy, setPolicy] = useState<Policy | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const policyId = searchParams.get('id')
-    if (policyId) {
-      const foundPolicy = getPolicy(policyId)
-      setPolicy(foundPolicy)
+    if (policyId && typeof window !== 'undefined') {
+      try {
+        const foundPolicy = getPolicy(policyId)
+        setPolicy(foundPolicy)
+      } catch (error) {
+        console.error('Error loading policy:', error)
+      }
     }
   }, [searchParams])
 
   const handlePrint = () => {
-    window.print()
+    if (typeof window !== 'undefined') {
+      window.print()
+    }
   }
 
   const handleDownloadPDF = () => {
     // PDF generation will be implemented
-    alert('PDF download will be implemented')
+    if (typeof window !== 'undefined') {
+      alert('PDF download will be implemented')
+    }
+  }
+
+  if (!mounted) {
+    return (
+      <Container size="md" py="xl">
+        <Text>Loading...</Text>
+      </Container>
+    )
   }
 
   if (!policy) {
     return (
       <Container size="md" py="xl">
         <Text>Policy not found</Text>
+        <Button mt="md" onClick={() => router.push('/dashboard')}>
+          Back to Dashboard
+        </Button>
       </Container>
     )
   }
@@ -121,5 +144,17 @@ export default function ContractPage() {
         </Stack>
       </Paper>
     </Container>
+  )
+}
+
+export default function ContractPage() {
+  return (
+    <Suspense fallback={
+      <Container size="md" py="xl">
+        <Text>Loading...</Text>
+      </Container>
+    }>
+      <ContractContent />
+    </Suspense>
   )
 }

@@ -21,7 +21,7 @@ export function Step7Payment({ data, consents, onPrev, onSubmit, onIdUpload }: S
 
   const form = useForm<Partial<Payment & Consents>>({
     initialValues: {
-      paymentMethod: data?.paymentMethod || '',
+      paymentMethod: data?.paymentMethod || undefined,
       billingAddress: data?.billingAddress || '',
       gdpr: consents?.gdpr || false,
       terms: consents?.terms || false,

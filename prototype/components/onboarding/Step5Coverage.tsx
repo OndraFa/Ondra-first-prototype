@@ -17,7 +17,7 @@ export function Step5Coverage({ data, tripInfo, onNext, onPrev }: Step5CoverageP
 
   const form = useForm<Partial<Coverage>>({
     initialValues: {
-      medicalLimit: data?.medicalLimit || '',
+      medicalLimit: data?.medicalLimit || undefined,
       accidentInsurance: data?.accidentInsurance || false,
       baggageInsurance: data?.baggageInsurance || false,
       liabilityInsurance: data?.liabilityInsurance || false,

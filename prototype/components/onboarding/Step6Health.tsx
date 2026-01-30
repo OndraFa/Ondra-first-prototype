@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Paper, Group, Radio, Stack, NumberInput, Alert } from '@mantine/core'
+import { Button, Paper, Group, Radio, Stack, NumberInput, Alert, Text } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { IconInfoCircle } from '@tabler/icons-react'
 import type { HealthInfo } from '@/lib/types'

@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Container, Title, Button, Paper, Text, Group, Badge, Stack } from '@mantine/core'

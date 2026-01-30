@@ -1,5 +1,7 @@
 'use client'
 
+export const dynamic = 'force-dynamic'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button, TextInput, Checkbox, Container, Title, Text, Paper } from '@mantine/core'

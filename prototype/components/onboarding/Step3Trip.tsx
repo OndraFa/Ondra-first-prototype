@@ -15,7 +15,7 @@ export function Step3Trip({ data, onNext, onPrev }: Step3TripProps) {
 
   const form = useForm<Partial<TripInfo>>({
     initialValues: {
-      destination: data?.destination || '',
+      destination: data?.destination || undefined,
       departureDate: data?.departureDate || '',
       returnDate: data?.returnDate || '',
       tripType: data?.tripType || 'one-time',
