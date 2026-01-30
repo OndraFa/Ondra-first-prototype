@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Policy - Travel Insurance Broker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>New Travel Insurance Policy</h1>
+            <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary btn-small">
+                ← Back to Dashboard
+            </button>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="step-indicator active" data-step="1">Contact</span>
+                <span class="step-indicator" data-step="2">Personal</span>
+                <span class="step-indicator" data-step="3">Trip</span>
+                <span class="step-indicator" data-step="4">Type</span>
+                <span class="step-indicator" data-step="5">Coverage</span>
+                <span class="step-indicator" data-step="6">Health</span>
+                <span class="step-indicator" data-step="7">Payment</span>
+            </div>
+        </div>
+
+        <!-- Form Steps -->
+        <form id="insuranceForm" class="multi-step-form">
+            
+            <!-- Step 1: Contact Information -->
+            <div class="form-step active" data-step="1">
+                <h2>Contact Information</h2>
+                <p class="step-description">We need your contact details to proceed</p>
+                
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com"
+                        required
+                        autocomplete="email"
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="+420 123 456 789"
+                        required
+                        autocomplete="tel"
+                    >
+                    <span class="error-message" id="phoneError"></span>
+                    <small class="field-hint">International format: +420 123 456 789</small>
+                </div>
+            </div>
+
+            <!-- Step 2: Personal Information -->
+            <div class="form-step" data-step="2">
+                <h2>Personal Information</h2>
+                
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        placeholder="John"
+                        autocomplete="given-name"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        placeholder="Doe"
+                        autocomplete="family-name"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label>Identification</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="radio" name="idType" value="czechId" checked>
+                            <span>Czech Personal ID</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="radio" name="idType" value="birthDate">
+                            <span>Date of Birth</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="czechIdGroup">
+                    <label for="personalId">Personal ID Number (Rodné číslo)</label>
+                    <input 
+                        type="text" 
+                        id="personalId" 
+                        name="personalId" 
+                        placeholder="123456/7890"
+                        pattern="[0-9]{6}/[0-9]{4}"
+                    >
+                    <span class="error-message" id="personalIdError"></span>
+                    <small class="field-hint">Format: 123456/7890</small>
+                </div>
+                
+                <div class="form-group" id="birthDateGroup" style="display: none;">
+                    <label for="birthDate">Date of Birth</label>
+                    <input 
+                        type="date" 
+                        id="birthDate" 
+                        name="birthDate"
+                        max=""
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="nationality">Nationality</label>
+                    <input 
+                        type="text" 
+                        id="nationality" 
+                        name="nationality" 
+                        placeholder="Czech"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Permanent Address</label>
+                    <textarea 
+                        id="address" 
+                        name="address" 
+                        rows="3"
+                        placeholder="Street, City, Postal Code, Country"
+                    ></textarea>
+                </div>
+            </div>
+
+            <!-- Step 3: Trip Details -->
+            <div class="form-step" data-step="3">
+                <h2>Trip Details</h2>
+                
+                <div class="form-group">
+                    <label for="destination">Destination Region <span class="required">*</span></label>
+                    <select id="destination" name="destination" required>
+                        <option value="">Select destination...</option>
+                        <option value="CZ">Czech Republic (CZK)</option>
+                        <option value="EU">Europe (EUR)</option>
+                        <option value="WORLD">Rest of World (USD)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="departureDate">Departure Date <span class="required">*</span></label>
+                    <input 
+                        type="date" 
+                        id="departureDate" 
+                        name="departureDate" 
+                        required
+                        min=""
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="returnDate">Return Date <span class="required">*</span></label>
+                    <input 
+                        type="date" 
+                        id="returnDate" 
+                        name="returnDate" 
+                        required
+                        min=""
+                    >
+                    <span class="error-message" id="returnDateError"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tripType">Trip Type</label>
+                    <select id="tripType" name="tripType">
+                        <option value="one-time">One-time trip</option>
+                        <option value="repeated">Repeated trip</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Number of Insured Persons</label>
+                    <div class="number-input-group">
+                        <div>
+                            <label for="adults">Adults</label>
+                            <input 
+                                type="number" 
+                                id="adults" 
+                                name="adults" 
+                                min="1" 
+                                value="1"
+                                required
+                            >
+                        </div>
+                        <div>
+                            <label for="children">Children</label>
+                            <input 
+                                type="number" 
+                                id="children" 
+                                name="children" 
+                                min="0" 
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Trip Type & Purpose -->
+            <div class="form-step" data-step="4">
+                <h2>Trip Type & Purpose</h2>
+                
+                <div class="form-group">
+                    <label for="purpose">Trip Purpose</label>
+                    <select id="purpose" name="purpose">
+                        <option value="recreational">Recreational/Tourist</option>
+                        <option value="business">Business Trip</option>
+                        <option value="study">Study/Au-pair</option>
+                        <option value="sports">Sports Stay</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Sports Activities</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="radio" name="sportsActivities" value="no" checked>
+                            <span>No</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="radio" name="sportsActivities" value="yes">
+                            <span>Yes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="sportsTypeGroup" style="display: none;">
+                    <label for="sportsType">Type of Sports Activities</label>
+                    <select id="sportsType" name="sportsType">
+                        <option value="recreational">Recreational</option>
+                        <option value="risky">Risky</option>
+                        <option value="extreme">Extreme</option>
+                    </select>
+                    <small class="field-hint">Examples: skiing, diving, mountaineering, paragliding</small>
+                </div>
+            </div>
+
+            <!-- Step 5: Insurance Coverage -->
+            <div class="form-step" data-step="5">
+                <h2>Insurance Coverage</h2>
+                
+                <div class="form-group">
+                    <label for="medicalLimit">Medical Expenses Limit <span class="required">*</span></label>
+                    <select id="medicalLimit" name="medicalLimit" required>
+                        <option value="">Select limit...</option>
+                        <option value="50000">50,000</option>
+                        <option value="100000">100,000</option>
+                        <option value="200000">200,000</option>
+                    </select>
+                    <small class="field-hint" id="medicalLimitCurrency"></small>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="accidentInsurance" name="accidentInsurance">
+                        <span>Accident Insurance (death, permanent consequences)</span>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="baggageInsurance" name="baggageInsurance">
+                        <span>Baggage Insurance</span>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="liabilityInsurance" name="liabilityInsurance">
+                        <span>Liability Insurance</span>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="tripCancellation" name="tripCancellation">
+                        <span>Trip Cancellation</span>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="assistanceServices" name="assistanceServices" checked>
+                        <span>Assistance Services</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Coverage</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="carAssistance" name="carAssistance">
+                            <span>Car Assistance</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="pets" name="pets">
+                            <span>Pets</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="covid" name="covid">
+                            <span>COVID Coverage</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Premium Calculator Display -->
+                <div class="premium-calculator">
+                    <h3>Estimated Premium</h3>
+                    <div class="premium-display">
+                        <span id="premiumAmount">-</span>
+                        <span id="premiumCurrency"></span>
+                    </div>
+                    <small class="premium-note">Price calculated based on your selections</small>
+                </div>
+            </div>
+
+            <!-- Step 6: Health & Risk Information -->
+            <div class="form-step" data-step="6">
+                <h2>Health & Risk Information</h2>
+                <p class="step-description">This information is required for accurate coverage assessment</p>
+                
+                <div class="form-group">
+                    <label>Chronic Illness</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="radio" name="chronicIllness" value="no" checked>
+                            <span>No</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="radio" name="chronicIllness" value="yes">
+                            <span>Yes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Medical Treatment in Last 6 Months</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="radio" name="recentTreatment" value="no" checked>
+                            <span>No</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="radio" name="recentTreatment" value="yes">
+                            <span>Yes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pregnancy</label>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="radio" name="pregnancy" value="no" checked>
+                            <span>No</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="radio" name="pregnancy" value="yes">
+                            <span>Yes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="pregnancyWeekGroup" style="display: none;">
+                    <label for="pregnancyWeek">Pregnancy Week</label>
+                    <input 
+                        type="number" 
+                        id="pregnancyWeek" 
+                        name="pregnancyWeek" 
+                        min="1" 
+                        max="42"
+                    >
+                </div>
+                
+                <div class="gdpr-notice">
+                    <p><strong>GDPR Notice:</strong> We only collect necessary health information for insurance assessment. Your data is processed in accordance with GDPR regulations.</p>
+                </div>
+            </div>
+
+            <!-- Step 7: Payment, Consents & ID Upload -->
+            <div class="form-step" data-step="7">
+                <h2>Payment & Final Steps</h2>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method <span class="required">*</span></label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="">Select payment method...</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="transfer">Bank Transfer</option>
+                        <option value="apple">Apple Pay</option>
+                        <option value="google">Google Pay</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="billingAddress">Billing Address (if different)</label>
+                    <textarea 
+                        id="billingAddress" 
+                        name="billingAddress" 
+                        rows="3"
+                        placeholder="Leave empty if same as permanent address"
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="idDocument">ID Document Upload <span class="required">*</span></label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input 
+                            type="file" 
+                            id="idDocument" 
+                            name="idDocument" 
+                            accept="image/jpeg"
+                            capture="environment"
+                            required
+                            style="display: none;"
+                        >
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <span>📷</span>
+                            <p>Click to upload or use camera</p>
+                            <small>JPG format, max 2MB</small>
+                        </div>
+                        <div class="upload-preview" id="uploadPreview" style="display: none;">
+                            <img id="previewImage" src="" alt="Preview">
+                            <button type="button" class="btn-remove" onclick="removeUpload()">Remove</button>
+                        </div>
+                    </div>
+                    <span class="error-message" id="fileError"></span>
+                </div>
+                
+                <div class="legal-consents">
+                    <h3>Legal Consents</h3>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consentGDPR" name="consentGDPR" required>
+                            <span>I consent to personal data processing (GDPR) <span class="required">*</span></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consentTerms" name="consentTerms" required>
+                            <span>I have read and agree to the insurance terms <span class="required">*</span></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consentIPID" name="consentIPID" required>
+                            <span>I have received the information document on insurance product (IPID) <span class="required">*</span></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consentTruthfulness" name="consentTruthfulness" required>
+                            <span>I declare that all provided information is truthful <span class="required">*</span></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="consentRemote" name="consentRemote" required>
+                            <span>I consent to remote insurance agreement <span class="required">*</span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+                <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">
+                    ← Previous
+                </button>
+                <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                    Next →
+                </button>
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">
+                    Submit Policy
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="storage.js"></script>
+    <script src="form.js"></script>
+</body>
+</html>

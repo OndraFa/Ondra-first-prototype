@@ -1,0 +1,9 @@
+[build]
+  command = "cd prototype && npm run build"
+  publish = "prototype/.next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "20"

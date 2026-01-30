@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Travel Insurance Broker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-header">
+            <div>
+                <h1>My Policies</h1>
+                <p id="welcomeMessage">Welcome back!</p>
+            </div>
+            <div class="user-info">
+                <span id="userEmail"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-small">Logout</button>
+            </div>
+        </div>
+
+        <div class="dashboard-actions">
+            <button onclick="window.location.href='form.html'" class="btn btn-primary">
+                + Create New Policy
+            </button>
+        </div>
+
+        <div id="policiesContainer" class="policies-grid">
+            <!-- Policies will be loaded here -->
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <h2>No policies yet</h2>
+            <p>Create your first travel insurance policy to get started.</p>
+            <button onclick="window.location.href='form.html'" class="btn btn-primary" style="margin-top: 20px;">
+                Create Policy
+            </button>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="storage.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
